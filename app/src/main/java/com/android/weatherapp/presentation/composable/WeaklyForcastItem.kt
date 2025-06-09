@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -22,7 +23,7 @@ import com.android.weatherapp.ui.theme.Black60
 import com.android.weatherapp.ui.theme.Black87
 import com.android.weatherapp.ui.theme.Gray8
 
-@Preview(showBackground = true)
+@Preview(showSystemUi = true)
 @Composable
 fun WeaklyForcastItem() {
 
@@ -30,7 +31,7 @@ fun WeaklyForcastItem() {
     Row(
         modifier = Modifier
             .height(61.dp)
-            .width(336.dp)
+            .fillMaxWidth()
             .border(1.dp, Gray8)
             .padding(vertical = 8.dp, horizontal = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,

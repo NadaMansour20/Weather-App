@@ -3,8 +3,11 @@ package com.android.weatherapp.presentation
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.android.weatherapp.R
 import com.android.weatherapp.presentation.composable.LocationName
 import com.android.weatherapp.presentation.composable.Title
+import com.android.weatherapp.presentation.composable.ToDayCards
 import com.android.weatherapp.presentation.composable.WeaklyForcast
 import com.android.weatherapp.presentation.composable.WeatherDetails
 import com.android.weatherapp.presentation.composable.WeatherImg
@@ -24,12 +28,7 @@ import com.android.weatherapp.ui.theme.backgroundColor
 
 
 //.padding(WindowInsets.systemBars.asPaddingValues())
-@Preview(
-    name = "My Device Preview",
-    device = Devices.PIXEL_7_PRO,
-    showSystemUi = true,
-    showBackground = true
-)
+@Preview(showSystemUi = true,)
 @Composable
 fun HomeScreen() {
 
@@ -48,42 +47,69 @@ fun HomeScreen() {
         verticalArrangement = Arrangement.spacedBy(24.dp),
 
         ) {
-        Column(
+        LazyColumn (
             verticalArrangement = Arrangement.spacedBy(12.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
+            contentPadding = PaddingValues(12.dp)
 
             ) {
 
-            LocationName(
-                modifier = Modifier.padding(top = 64.dp)
-            )
-            WeatherImg()
-            WeatherInfo()
-        }
-        Column {
-            WeatherDetails()
+            item{
+                LocationName(
+                    modifier = Modifier.padding(top = 64.dp)
+                )
+            }
+            item {
+                WeatherImg()
+            }
+            item {
+                WeatherInfo()
+            }
 
-        }
-
-        Column(
-            verticalArrangement = Arrangement.spacedBy(24.dp),
-            modifier = Modifier.padding(start = 12.dp)
-
-        ) {
-
-            Title(R.string.today)
+            item {
+                WeatherDetails()
 
 
-        }
+            }
+            stickyHeader {
+                Title(R.string.today)
 
-        Column(
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
+            }
 
-            Title(R.string.next7day)
-            WeaklyForcast()
+            item {
+                LazyRow(
+                    contentPadding = PaddingValues(12.dp)
+                ) {
+                    items(7) {
+//                Column(
+//                    verticalArrangement = Arrangement.spacedBy(24.dp),
+//                    modifier = Modifier.padding(start = 12.dp)
+//
+//                ) {
+//
+//
+//                }
+
+                        ToDayCards()
+                    }
+                }
+            }
+            stickyHeader {
+                Title(R.string.next7day)
+
+            }
+            item(
+
+            ) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+
+                WeaklyForcast()
 
 
+            }
+            }
         }
     }
 
