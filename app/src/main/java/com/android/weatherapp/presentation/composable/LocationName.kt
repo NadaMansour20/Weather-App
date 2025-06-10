@@ -13,9 +13,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.weatherapp.R
 import com.android.weatherapp.ui.theme.Gray
+import com.android.weatherapp.ui.theme.urbanist
 
 @Composable
-fun LocationName(modifier: Modifier=Modifier){
+fun LocationName(modifier: Modifier=Modifier,cityName:String){
 
     Row(
         modifier = modifier,
@@ -30,13 +31,13 @@ fun LocationName(modifier: Modifier=Modifier){
         )
 
         Text(
-            text = "Cairo",
+            text = cityName,
             fontSize = 16.sp,
             lineHeight = 20.sp,
             letterSpacing = 0.25.sp,
             color = Gray,
             fontWeight= FontWeight.Medium,
-//            fontFamily =
+            fontFamily = urbanist ,
 
         )
     }
