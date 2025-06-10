@@ -11,10 +11,10 @@ import androidx.compose.ui.unit.dp
 import com.android.weatherapp.R
 
 @Composable
-fun WeatherImg(){
+fun WeatherImg(currentWeatherImg:Int){
 
     Image(
-        painter = painterResource(R.drawable.weather_icon),
+        painter = painterResource(currentWeatherImg),
         contentDescription = null,
         modifier = Modifier.size(width = 220.21.dp, height = 200.dp)
 

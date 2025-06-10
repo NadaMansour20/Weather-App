@@ -1,16 +1,11 @@
 package com.android.weatherapp.presentation.composable
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -18,10 +13,10 @@ import androidx.compose.ui.unit.sp
 import com.android.weatherapp.ui.theme.Black
 import com.android.weatherapp.ui.theme.Black60
 import com.android.weatherapp.ui.theme.Gray8
+import com.android.weatherapp.ui.theme.urbanist
 
-@Preview(showSystemUi = true)
 @Composable
-fun WeatherInfo() {
+fun WeatherInfo(currentTemp:Double,description:String,tempMax:Double,tempMin:Double) {
 
     Column(
         verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -39,10 +34,10 @@ fun WeatherInfo() {
 
             ) {
                 Text(
-                    text = "24 C",
+                    text = currentTemp.toString(),
                     fontSize = 64.sp,
                     letterSpacing = 0.25.sp,
-//            fontFamily = ,
+                    fontFamily = urbanist,
                     fontWeight = FontWeight.SemiBold,
                     color = Black
 
@@ -53,29 +48,20 @@ fun WeatherInfo() {
                 horizontalArrangement = Arrangement.Center,
             ) {
                 Text(
-                    text = "Partly cloudy",
+                    text = description,
                     fontSize = 16.sp,
                     letterSpacing = 0.25.sp,
-//            fontFamily = ,
+                    fontFamily = urbanist,
                     fontWeight = FontWeight.Medium,
                     color = Black60
 
                 )
             }
         }
-        Row(
-            modifier = Modifier
-                .background(Gray8, RoundedCornerShape(100.dp))
-                .size(width = 168.dp, 35.dp)
-                .padding(top = 8.dp, start = 24.dp, end = 24.dp, bottom = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = Alignment.CenterVertically,
 
-            ) {
 
-            TempretureRange("32 C", "20 C", Black60, Black60)
+        TempretureRange(tempMax.toString(), tempMin.toString(), Black60, Black60, Gray8,8,24,8)
 
-        }
 
     }
 

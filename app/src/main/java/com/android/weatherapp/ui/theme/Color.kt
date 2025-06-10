@@ -19,3 +19,10 @@ val Gray24=Color(0x3D060414)
 val BlueLight=Color(0xFF87CEFA)
 val Black87=Color(0xDE060414)
 val White70=Color(0xB3FFFFFF)
+
+val White60=Color(0x99FFFFFF)
+val White87=Color(0xDEFFFFFF)
+
+
+val backgroundDarkGradient1=Color(0xFF060414)
+val backgroundDarkGradient2=Color(0xFF0D0C19)

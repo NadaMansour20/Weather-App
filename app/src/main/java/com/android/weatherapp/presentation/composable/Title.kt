@@ -8,6 +8,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.android.weatherapp.ui.theme.Black
+import com.android.weatherapp.ui.theme.urbanist
 
 @Composable
 fun Title(titleId:Int){
@@ -15,7 +16,7 @@ fun Title(titleId:Int){
         text = stringResource(titleId),
         fontSize = 20.sp,
         letterSpacing = 0.25.sp,
-//            fontFamily = ,
+        fontFamily = urbanist ,
         fontWeight = FontWeight.SemiBold,
         color = Black,
         modifier = Modifier.fillMaxSize()

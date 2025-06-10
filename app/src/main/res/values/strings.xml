@@ -2,4 +2,12 @@
     <string name="app_name">WeatherApp</string>
     <string name="today">Today</string>
     <string name="next7day">Next 7 days</string>
+    <string name="Wind">Wind</string>
+    <string name="Humidity">Humidity</string>
+    <string name="Rain">Rain</string>
+    <string name="Pressure">Pressure</string>
+    <string name="Feels_like">Feels like</string>
+    <string name="UV_Index">UV Index</string>
+    <string name="clear">Clear</string>
+    <string name="mainly_clear">Mainly clear</string>
 </resources>
