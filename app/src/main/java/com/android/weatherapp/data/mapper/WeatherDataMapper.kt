@@ -58,7 +58,7 @@ fun WeatherApiResponse.toUi(address: String): Weather {
         humidity = "${this.current?.relativeHumidity2m ?: 0}%",
         rain = "${this.current?.rain ?: 0.0}%",
         uv = this.daily?.uvIndexMax?.firstOrNull()?.toString()?:"0",
-        pressure = "${this.current?.surfacePressure?:0.0}hPa",
+        pressure = "${this.current?.surfacePressure?.toInt()?:0.0} hPa",
         temperature = "${this.current?.apparentTemperature ?: 0.0}°C",
         is_day = isDay,
         hourWeather = hourWeather,

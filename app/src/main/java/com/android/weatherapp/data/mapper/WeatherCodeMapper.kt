@@ -56,7 +56,7 @@ fun WeatherDescriptionCodeMapper(weatherCode: Int): String {
 
         1 -> "Mainly clear"
         2 -> "partly cloudy"
-        3 -> "and overcast"
+        3 -> "overcast"
 
         45 -> "Fog "
         48 -> "depositing rime fog"

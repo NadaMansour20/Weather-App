@@ -70,7 +70,7 @@ fun WeaklyForcastItem(day: DayUiState) {
         Image(
             painter = painterResource(day.weatherImgId),
             contentDescription = null,
-            modifier = Modifier.size(width = 91.dp, height = 45.dp)
+            modifier = Modifier.size(width = 32.dp, height = 32.dp)
 
         )
 

@@ -73,7 +73,7 @@ fun ToDayCards(hourState:HourUiState) {
     ) {
         Box(
             modifier = Modifier.size(width = 80.dp, height = 75.dp)
-                .offset(y = -38.dp)
+                .offset(y = -40.dp)
                 .zIndex(1f)
                 .padding(start = 12.dp, end = 18.dp)
         ) {

@@ -91,6 +91,8 @@ class HomeViewModel(
     private fun formatDate(date: String): String {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         val localDate = LocalDate.parse(date, formatter)
-        return localDate.dayOfWeek.name.lowercase().replaceFirstChar { it.uppercase() }.take(3)
+        return localDate.dayOfWeek.name.lowercase()
+            .replaceFirstChar { it.uppercase() }
     }
+
 }
