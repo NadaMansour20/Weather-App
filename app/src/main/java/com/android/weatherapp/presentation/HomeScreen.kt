@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,6 +20,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -61,6 +63,7 @@ fun HomeScreen(
 ) {
 
     val state by viewModel.state.collectAsState()
+    val is_loading by viewModel.is_loading.collectAsState()
 
     val context = LocalContext.current
     val activity = context as? Activity
@@ -73,7 +76,14 @@ fun HomeScreen(
     LaunchedEffect(state.is_day) {
         onDayStateChanged(state.is_day)
     }
-    HomeContent(state = state)
+    Box(modifier = Modifier.fillMaxSize()) {
+        if (is_loading) {
+            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+
+        } else {
+            HomeContent(state = state)
+        }
+    }
 }
 
 @Composable

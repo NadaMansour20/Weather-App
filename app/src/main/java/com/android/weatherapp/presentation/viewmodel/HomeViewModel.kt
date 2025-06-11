@@ -29,12 +29,16 @@ class HomeViewModel(
     private val _state = MutableStateFlow(HomeUiState())
     val state = _state.asStateFlow()
 
+    val is_loading = MutableStateFlow(true)
+
     fun loadLocationAndForecast(activity: Activity) {
+        is_loading.value=true
         viewModelScope.launch(Dispatchers.IO) {
             val location = getLocation(activity)
             if (location != null) {
                 val address = getAddress(activity, location.latitude, location.longitude)
                 if (address != null) {
+                    is_loading.value=false
                     getForecast(location.latitude, location.longitude, address)
                 }
             }
