@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.android.weatherapp.data.mapper.WeatherDescriptionCodeMapper
 import com.android.weatherapp.data.mapper.WeatherIconMapper
 import com.android.weatherapp.domain.repository.WeatherRepository
+import com.android.weatherapp.domain.usecase.GetAddressUseCase
+import com.android.weatherapp.domain.usecase.GetLocationUseCase
 import com.android.weatherapp.presentation.state.DayUiState
 import com.android.weatherapp.presentation.state.HomeUiState
 import com.android.weatherapp.presentation.state.HourUiState
@@ -14,15 +16,30 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.koin.mp.KoinPlatform.getKoin
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class HomeViewModel(
-    private val weatherRepository: WeatherRepository
+    private val weatherRepository: WeatherRepository,
+    private val getLocation: GetLocationUseCase = getKoin().get(),
+    private val getAddress: GetAddressUseCase = getKoin().get()
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeUiState())
     val state = _state.asStateFlow()
+
+    fun loadLocationAndForecast(activity: Activity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val location = getLocation(activity)
+            if (location != null) {
+                val address = getAddress(activity, location.latitude, location.longitude)
+                if (address != null) {
+                    getForecast(location.latitude, location.longitude, address)
+                }
+            }
+        }
+    }
 
     fun getForecast(lat: Double, lon: Double, address: String) {
         viewModelScope.launch(Dispatchers.IO) {

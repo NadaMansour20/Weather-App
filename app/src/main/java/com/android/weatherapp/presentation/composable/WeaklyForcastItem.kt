@@ -2,6 +2,7 @@ package com.android.weatherapp.presentation.composable
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,12 +24,29 @@ import com.android.weatherapp.R
 import com.android.weatherapp.presentation.state.DayUiState
 import com.android.weatherapp.ui.theme.Black60
 import com.android.weatherapp.ui.theme.Black87
+import com.android.weatherapp.ui.theme.DarkCustomColors
 import com.android.weatherapp.ui.theme.Gray8
+import com.android.weatherapp.ui.theme.LightCustomColors
+import com.android.weatherapp.ui.theme.LocalCustomColors
 import com.android.weatherapp.ui.theme.White70
 import com.android.weatherapp.ui.theme.urbanist
 
 @Composable
 fun WeaklyForcastItem(day: DayUiState) {
+
+    val customColors = LocalCustomColors.current
+
+    val dayColor = when (customColors) {
+        is DarkCustomColors -> customColors.White60
+        is LightCustomColors -> customColors.Black60
+        else -> Color.Gray
+    }
+
+    val tempMaxMinColor = when (customColors) {
+        is DarkCustomColors -> customColors.White87
+        is LightCustomColors -> customColors.Black87
+        else -> Color.Black
+    }
 
 
     Row(
@@ -45,7 +63,8 @@ fun WeaklyForcastItem(day: DayUiState) {
              fontSize = 16.sp,
             letterSpacing = 0.25.sp,
             fontFamily = urbanist ,
-            fontWeight = FontWeight.Normal, color = Black60
+            fontWeight = FontWeight.Normal,
+            color = dayColor
 
         )
         Image(
@@ -61,7 +80,7 @@ fun WeaklyForcastItem(day: DayUiState) {
 //
 //            ) {
 
-            TempretureRange(day.temperatureMax, day.temperatureMin, Black87, Black87, Color.Transparent,0,0,4)
+            TempretureRange(day.temperatureMax, day.temperatureMin, tempMaxMinColor, tempMaxMinColor, Color.Transparent,0,0,4)
 
 //        }
 

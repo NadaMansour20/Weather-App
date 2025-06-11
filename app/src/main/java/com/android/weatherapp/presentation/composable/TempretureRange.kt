@@ -2,6 +2,7 @@ package com.android.weatherapp.presentation.composable
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -24,7 +25,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.weatherapp.R
+import com.android.weatherapp.ui.theme.Black60
+import com.android.weatherapp.ui.theme.DarkCustomColors
 import com.android.weatherapp.ui.theme.Gray24
+import com.android.weatherapp.ui.theme.LightCustomColors
+import com.android.weatherapp.ui.theme.LocalCustomColors
 import com.android.weatherapp.ui.theme.urbanist
 
 @Composable
@@ -38,6 +43,21 @@ fun TempretureRange(
     paddingHorizontal:Int,
     spacing:Int
 ) {
+
+    val customColors = LocalCustomColors.current
+
+    val iconCustomColor = when (val colors = customColors) {
+        is DarkCustomColors -> colors.White87
+        is LightCustomColors -> if (iconColor == Black60) colors.Black60 else colors.Black87
+        else -> Color.Gray
+    }
+    val lineColor = when (val colors = customColors) {
+        is DarkCustomColors -> colors.White24
+        is LightCustomColors -> colors.Gray24
+        else -> Color.Gray
+    }
+
+
 
     Row(
         modifier = Modifier
@@ -61,7 +81,7 @@ fun TempretureRange(
 
                 contentDescription = null,
                 modifier = Modifier.size(12.dp),
-                tint = iconColor
+                tint = iconCustomColor
 
             )
             Spacer(modifier = Modifier.width(4.dp))
@@ -80,7 +100,7 @@ fun TempretureRange(
             modifier = Modifier
                 .width(1.dp)
                 .height(14.dp)
-                .border(1.dp, Gray24)
+                .border(1.dp, lineColor)
 
         )
         Row(

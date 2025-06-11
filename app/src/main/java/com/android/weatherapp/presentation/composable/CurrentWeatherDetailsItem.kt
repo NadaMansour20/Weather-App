@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -27,16 +26,45 @@ import androidx.compose.ui.unit.sp
 import com.android.weatherapp.ui.theme.Black60
 import com.android.weatherapp.ui.theme.Black87
 import com.android.weatherapp.ui.theme.BlueLight
-import com.android.weatherapp.ui.theme.Gray8
+import com.android.weatherapp.ui.theme.DarkCustomColors
+import com.android.weatherapp.ui.theme.LightCustomColors
+import com.android.weatherapp.ui.theme.LocalCustomColors
 import com.android.weatherapp.ui.theme.urbanist
 
 @Composable
-fun WeatherDetailsItem(iconId: Int, temp:String, discriptionId: Int, modifier: Modifier = Modifier) {
+fun CurrentWeatherDetailsItem(iconId: Int, temp:String, discriptionId: Int, modifier: Modifier = Modifier) {
+
+    val customColors = LocalCustomColors.current
+
+    val borderColor = when (customColors) {
+        is DarkCustomColors -> customColors.White8
+        is LightCustomColors -> customColors.Gray8
+        else -> Color.Gray
+    }
+
+    val cardBackgroundColor = when (customColors) {
+        is DarkCustomColors -> customColors.Black70
+        is LightCustomColors -> customColors.White70
+        else -> Color.Gray
+    }
+
+    val tempDetailsColor = when (customColors) {
+        is DarkCustomColors -> customColors.White87
+        is LightCustomColors -> customColors.Black87
+        else -> Color.Gray
+    }
+    val titleColor = when (customColors) {
+        is DarkCustomColors -> customColors.White60
+        is LightCustomColors -> customColors.Black60
+        else -> Color.Gray
+    }
+
+
 
     Box(
         modifier = modifier.fillMaxWidth()
-            .border(1.dp, Gray8, RoundedCornerShape(24.dp))
-            .background(Color.White, RoundedCornerShape(24.dp))
+            .border(1.dp, borderColor, RoundedCornerShape(24.dp))
+            .background(cardBackgroundColor, RoundedCornerShape(24.dp))
             .padding(horizontal = 8.dp, vertical = 16.dp),
         contentAlignment = Alignment.Center
     ) {
@@ -51,7 +79,7 @@ fun WeatherDetailsItem(iconId: Int, temp:String, discriptionId: Int, modifier: M
                 tint = BlueLight,
                 modifier = Modifier.size(32.dp)
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.padding(bottom = 8.dp))
 
             Column (
                 verticalArrangement = Arrangement.Center,
@@ -59,22 +87,22 @@ fun WeatherDetailsItem(iconId: Int, temp:String, discriptionId: Int, modifier: M
 
                 ){
                 Text(
-                    text = temp.toString(),
+                    text = temp,
                     fontSize = 20.sp,
                     letterSpacing = 0.25.sp,
                     fontFamily = urbanist,
                     fontWeight = FontWeight.Medium,
-                    color = Black87
+                    color = tempDetailsColor
 
                 )
-                Spacer(modifier = Modifier.height(2.dp))
+                Spacer(modifier = Modifier.padding(bottom = 2.dp))
                 Text(
                     text = stringResource(discriptionId),
                     fontSize = 14.sp,
                     letterSpacing = 0.25.sp,
                     fontFamily = urbanist,
                     fontWeight = FontWeight.Normal,
-                    color = Black60
+                    color = titleColor
 
                 )
             }

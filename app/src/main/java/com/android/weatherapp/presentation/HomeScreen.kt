@@ -3,6 +3,7 @@ package com.android.weatherapp.presentation
 import android.app.Activity
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,15 +34,18 @@ import com.android.weatherapp.data.repository.GetLocationImpl
 import com.android.weatherapp.data.remote.datasource.WeatherService
 import com.android.weatherapp.domain.usecase.GetAddressUseCase
 import com.android.weatherapp.domain.usecase.GetLocationUseCase
+import com.android.weatherapp.presentation.composable.CurrentWeatherDetails
 import com.android.weatherapp.presentation.composable.LocationName
 import com.android.weatherapp.presentation.composable.Title
 import com.android.weatherapp.presentation.composable.ToDayCards
 import com.android.weatherapp.presentation.composable.WeaklyForcast
-import com.android.weatherapp.presentation.composable.WeatherDetails
 import com.android.weatherapp.presentation.composable.WeatherImg
 import com.android.weatherapp.presentation.composable.WeatherInfo
 import com.android.weatherapp.presentation.state.HomeUiState
 import com.android.weatherapp.presentation.viewmodel.HomeViewModel
+import com.android.weatherapp.ui.theme.DarkCustomColors
+import com.android.weatherapp.ui.theme.LightCustomColors
+import com.android.weatherapp.ui.theme.LocalCustomColors
 import com.android.weatherapp.ui.theme.backgroundColor
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.getKoin
@@ -50,30 +54,24 @@ import org.koin.compose.getKoin
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = koinViewModel(),
-    getLocation: GetLocationUseCase = getKoin().get(),
-    getAddress: GetAddressUseCase = getKoin().get()
+    onDayStateChanged: (Int) -> Unit
+
 ) {
-    val context = LocalContext.current
-    val activity = context as Activity
+
     val state by viewModel.state.collectAsState()
+    val context = LocalContext.current
+    val activity = context as? Activity
+
 
     LaunchedEffect(Unit) {
-        val location = getLocation(activity)
-
-        if (location != null) {
-            val address = getAddress(activity, location.latitude, location.longitude)
-
-            if (address != null) {
-                viewModel.getForecast(location.latitude, location.longitude, address)
-
-                Log.d("WeatherApp", "Location: ${location.latitude}, ${location.longitude}")
-                Log.d("WeatherApp", "Address: $address")
-            } else {
-                Log.e("WeatherApp", "Address is null")
-            }
-        } else {
-            Log.e("WeatherApp", "Location is null")
+        activity?.let {
+            viewModel.loadLocationAndForecast(it)
         }
+    }
+
+
+    LaunchedEffect(state.is_day) {
+        onDayStateChanged(state.is_day)
     }
     HomeContent(state = state)
 }
@@ -81,15 +79,27 @@ fun HomeScreen(
 @Composable
 fun HomeContent(state: HomeUiState) {
 
+    val customColors = LocalCustomColors.current
+
+    val backgroundColor = when (customColors) {
+        is DarkCustomColors -> listOf(
+            customColors.backgroundDarkGradient1,
+            customColors.backgroundDarkGradient2
+        )
+        is LightCustomColors -> listOf(
+            customColors.backgroundColor,
+            customColors.White
+        )
+        else -> listOf(Color.Gray, Color.Black)
+    }
+
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(
                 brush = Brush.verticalGradient(
-                    colors = listOf(
-                        backgroundColor,
-                        Color.White
-                    )
+                    colors = backgroundColor
                 )
             ),
     ) {
@@ -124,7 +134,7 @@ fun HomeContent(state: HomeUiState) {
                 Column(
                     modifier = Modifier.padding(horizontal = 12.dp)
                 ) {
-                    WeatherDetails(
+                    CurrentWeatherDetails(
                         wind = state.windSpeed,
                         humidity = state.humidity,
                         rain = state.rain,
