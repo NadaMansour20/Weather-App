@@ -38,8 +38,8 @@ class HomeViewModel(
             if (location != null) {
                 val address = getAddress(activity, location.latitude, location.longitude)
                 if (address != null) {
-                    is_loading.value=false
                     getForecast(location.latitude, location.longitude, address)
+
                 }
             }
         }
@@ -86,7 +86,10 @@ class HomeViewModel(
                         dayUiState = dayUiState
                     )
                 }
+                is_loading.value=false
+
             } catch (e: Exception) {
+                is_loading.value=false
                 throw Exception(e.message)
             }
         }
